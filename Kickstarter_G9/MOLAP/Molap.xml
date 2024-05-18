@@ -1,0 +1,60 @@
+<Schema name="New Schema1">
+  <Dimension type="StandardDimension" visible="true" name="Dim_Project">
+    <Hierarchy name="Project" visible="true" hasAll="true" allMemberName="All Project" primaryKey="ProjectId">
+      <Table name="DimProject" schema="Kickstarter" alias="">
+      </Table>
+      <Level name="ProjectName" visible="true" column="ProjectName" nameColumn="ProjectName" ordinalColumn="ProjectId" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Project_blurb" visible="true" table="DimProject" column="Project_blurb" nameColumn="Project_blurb" ordinalColumn="Project_blurb" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Project_state" visible="true" table="DimProject" column="Project_state" nameColumn="Project_state" ordinalColumn="Project_state" type="String" uniqueMembers="true" hideMemberIf="Never">
+      </Level>
+      <Level name="Converted_pledged_amount" visible="true" table="DimProject" column="converted_pledged_amount" nameColumn="converted_pledged_amount" ordinalColumn="ProjectId" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Pledged" visible="true" table="DimProject" column="Pledged" nameColumn="Pledged" ordinalColumn="ProjectId" type="Numeric" uniqueMembers="false" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" name="Dim_Location">
+    <Hierarchy name="Location" visible="true" hasAll="true" allMemberName="All Location" allLevelName="Location" primaryKey="LocationId">
+      <Table name="DimLocation" schema="Kickstarter" alias="">
+      </Table>
+      <Level name="country_displayable_name" visible="true" table="DimLocation" column="CountryName" ordinalColumn="LocationId" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" name="Dim_Category">
+    <Hierarchy name="Category" visible="true" hasAll="true" allMemberName="All Category" allLevelName="Category" primaryKey="CategoryID">
+      <Table name="DimCategory" schema="Kickstarter">
+      </Table>
+      <Level name="Category_name" visible="true" table="DimCategory" column="Category_name" ordinalColumn="CategoryID" type="String" uniqueMembers="false" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" name="Dim_Date">
+    <Hierarchy name="Date" visible="true" hasAll="true" allMemberName="All Date" allLevelName="Date" primaryKey="Date">
+      <Table name="DimDate" schema="Kickstarter" alias="">
+      </Table>
+      <Level name="Create_at" visible="true" table="DimDate" column="DayName" nameColumn="Date" type="Date" uniqueMembers="false" hideMemberIf="Never">
+      </Level>
+      <Level name="Deadline" visible="true" table="DimDate" column="DateKey" nameColumn="DateKey" type="Date" uniqueMembers="false" hideMemberIf="Never">
+      </Level>
+      <Level name="Launched_at" visible="true" table="DimDate" column="Date" nameColumn="Date" type="Date" uniqueMembers="false" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Cube name="Kickstarter" visible="true" cache="true" enabled="true">
+    <Table name="FactFunding" schema="Kickstarter" alias="">
+    </Table>
+    <DimensionUsage source="Dim_Project" name="Project_id" visible="true" foreignKey="ProjectId">
+    </DimensionUsage>
+    <DimensionUsage source="Dim_Location" name="Location_id" visible="true" foreignKey="LocationId">
+    </DimensionUsage>
+    <DimensionUsage source="Dim_Date" name="Date_id" visible="true" foreignKey="DateId">
+    </DimensionUsage>
+    <DimensionUsage source="Dim_Category" name="Category_id" visible="true" foreignKey="CategoryId">
+    </DimensionUsage>
+    <Measure name="Pledged" column="ProjectId" datatype="Numeric" aggregator="sum" visible="true">
+    </Measure>
+  </Cube>
+</Schema>
